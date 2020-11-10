@@ -1,0 +1,91 @@
+﻿<!doctype html>
+<html>
+	<head>
+		<title>Quiz com Temporizador</title>
+		<script>
+			var s = 15;
+			var parar = "";
+			var perguntas = [
+				["O planeta Terra possui dois satélites naturais.", "F"],
+				["O maior satélite natural do Sistema Solar é Ganimedes, lua do planeta Netuno.", "F"],
+				["O planeta que apresenta maior quantidade de satélites é Júpiter (63 satélites naturais).", "V"],
+				["Segundo estudos de astrofísicos, o Sistema Solar nasceu a, aproximadamente, 4,6 bilhões de anos.", "V"],
+				["A estrela mais próxima do Sistema Solar é Centauri, distante cerca de 4,22 anos-luz. Ela está localizada no sistema Alpha Centauri.", "V"],
+				["O planeta do Sistema Solar que está mais próximo do Sol é Mercúrio. Mercúrio é também o menor planeta do sistema solar e sua temperatura na superfície pode atingir 420ºC.", "V"],
+				["Marte é o planeta mais próximo da Terra.", "V"]
+				];
+			//funçao Tempo
+			function tempo(){
+			
+				parar = setInterval("fim()", 1000);
+			
+			}
+			// funçao FIM
+			function fim(){
+			
+				s--;
+				document.getElementById("tempo").value = s + " segundos restantes"; 	
+				
+				if(s == 0){
+				
+					clearInterval(parar);
+					document.getElementById("enviar").style = "display:none";
+					
+					document.getElementById("tempo").value = "Seu tempo acabou!";
+					
+					document.getElementById("repetir").style = "display:inline";
+				}
+				
+			}
+			//funçao Recarregar
+			function recarregar(){
+			
+				document.location.reload();			
+			}
+			// funçao Verificar
+			function verificar(){
+			
+				//parar o tempo
+				clearInterval(parar);
+				// verificar quantos acertos
+				var acertos = 0;
+				for(var lin=0; lin< perguntas.length; lin++){
+				
+					var resp = document.getElementsByName("p" + lin);
+					if(resp[0].checked && resp[0].value == perguntas[lin][1]){
+					
+						acertos++;
+					}
+					else if(resp[1].checked && resp[1].value == perguntas[lin][1]){
+					
+						acertos++;
+					}
+					
+				}//fim do FOR
+				alert("Voce acertou: " + acertos + " pergunta(s)");		
+			}
+		
+		
+				
+		</script>
+	</head>
+	<body onload = "tempo()">
+		<script>
+			// montar as perguntas
+			document.write("<h2>Responda as perguntas em 15 segundos</h2>");
+			document.write("<ol>");
+			for(var lin=0; lin < perguntas.length; lin++){
+				
+				document.write("<li>" + perguntas[lin][0] + "</li>");
+				document.write("<input type = 'radio' value='V' name = 'p" + lin + "'><label>Verdadeiro</label>");
+				document.write("<input type = 'radio' value='F' name = 'p" + lin + "'><label>Falso</label>");		
+			}
+			
+			document.write("</ol>");			
+		</script>		
+		
+		<input type="button" id="tempo" value = "15 segundos"/>
+		<button id = "enviar" onclick = "verificar()">Enviar</button>
+		<button onclick = "recarregar()" id = "repetir" style='display:none;'>Responder Novamente</button>
+	</body>
+</html>
